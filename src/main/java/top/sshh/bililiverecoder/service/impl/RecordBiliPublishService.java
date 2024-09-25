@@ -528,16 +528,8 @@ public class RecordBiliPublishService {
                             for (RecordHistoryPart part : uploadParts) {
                                 String filePath = part.getFilePath();
                                 if(room.getDeleteType() == 9){
-                                    String startDirPath = filePath.substring(0, filePath.lastIndexOf('/') + 1);
-                                    String fileName = filePath.substring(filePath.lastIndexOf("/") + 1, filePath.lastIndexOf("."));
-                                    File startDir = new File(startDirPath);
-                                    File[] files = startDir.listFiles((file, s) -> s.startsWith(fileName));
-                                    boolean delete = false;
-                                    if (files != null) {
-                                        for (File file : files) {
-                                            delete = file.delete();
-                                        }
-                                    }
+                                    File file = new File(filePath);
+                                    boolean delete = file.delete();
                                     if(delete){
                                         log.error("{}=>文件删除成功！！！", filePath);
                                     }else {
