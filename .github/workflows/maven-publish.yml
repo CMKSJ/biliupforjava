@@ -20,7 +20,7 @@ jobs:
           java-version: '17'
 
       - name: Update POM version
-        run: sed -i "s|<version>0.0.1-SNAPSHOT</version>|<version>${{ github.event.release.tag_name }}</version>|g" pom.xml
+        run: sed -i "s|<version>0.0.1-SNAPSHOT</version>|<version>1.2.3</version>|g" pom.xml
 
       - name: Build with Maven
         run: mvn -B package --file pom.xml -DskipTests
