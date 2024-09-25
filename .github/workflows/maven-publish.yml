@@ -32,3 +32,8 @@ jobs:
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: agileconfig-ui
+          path: target/
