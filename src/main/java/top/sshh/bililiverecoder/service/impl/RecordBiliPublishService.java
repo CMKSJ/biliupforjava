@@ -532,7 +532,7 @@ public class RecordBiliPublishService {
                                     String fileName = filePath.substring(filePath.lastIndexOf("/") + 1, filePath.lastIndexOf("."));
                                     File startDir = new File(startDirPath);
                                     File[] files = startDir.listFiles((file, s) -> s.startsWith(fileName));
-                                    boolean delete;
+                                    boolean delete = false;
                                     if (files != null) {
                                         for (File file : files) {
                                             delete = file.delete();
