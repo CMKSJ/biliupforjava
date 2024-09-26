@@ -41,8 +41,17 @@ public class DeletePartFileJob {
                 log.info("定时删除文件任务，主播名称{}，待删除文件数量{}", room.getUname(), partList.size());
             }
             for (RecordHistoryPart part : partList) {
-                File file = new File(part.getFilePath());
-                boolean delete = file.delete();
+                String filePath = part.getFilePath();
+                String startDirPath = filePath.substring(0, filePath.lastIndexOf('/') + 1);
+                String fileName = filePath.substring(filePath.lastIndexOf("/") + 1, filePath.lastIndexOf("."));
+                File startDir = new File(startDirPath);
+                File[] files = startDir.listFiles((file, s) -> s.startsWith(fileName));
+                boolean delete = false;
+                if (files != null) {
+                    for (File file : files) {
+                        delete = file.delete();
+                    }
+                }
                 if (delete) {
                     log.error("定时删除文件任务，主播名称{}，{}=>文件删除成功！！！", room.getUname(), part.getFilePath());
                 } else {
