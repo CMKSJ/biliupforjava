@@ -89,8 +89,16 @@ public class videoSyncJob {
                     //如果配置成发布完成后删除则删除文件
                     String filePath = part.getFilePath();
                     if (recordRoom != null && recordRoom.getDeleteType() == 2) {
-                        File file = new File(filePath);
-                        boolean delete = file.delete();
+                        String startDirPath = filePath.substring(0, filePath.lastIndexOf('/') + 1);
+                        String fileName = filePath.substring(filePath.lastIndexOf("/") + 1, filePath.lastIndexOf("."));
+                        File startDir = new File(startDirPath);
+                        File[] files = startDir.listFiles((file, s) -> s.startsWith(fileName));
+                        boolean delete = false;
+                        if (files != null) {
+                            for (File file : files) {
+                                delete = file.delete();
+                            }
+                        }
                         if (delete) {
                             log.error("{}=>文件删除成功！！！", filePath);
                         } else {
