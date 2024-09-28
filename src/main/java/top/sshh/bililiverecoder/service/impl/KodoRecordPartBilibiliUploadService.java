@@ -352,7 +352,16 @@ public class KodoRecordPartBilibiliUploadService implements RecordPartUploadServ
                                     part = partRepository.save(part);
                                     //如果配置上传完成删除，则删除文件
                                     if (room.getDeleteType() == 1) {
-                                        boolean delete = uploadFile.delete();
+                                        String startDirPath = filePath.substring(0, filePath.lastIndexOf('/') + 1);
+                                        String fileName = filePath.substring(filePath.lastIndexOf("/") + 1, filePath.lastIndexOf("."));
+                                        File startDir = new File(startDirPath);
+                                        File[] files = startDir.listFiles((file, s) -> s.startsWith(fileName));
+                                        boolean delete = false;
+                                        if (files != null) {
+                                            for (File file : files) {
+                                                delete = file.delete();
+                                            }
+                                        }
                                         if (delete) {
                                             log.error("{}=>文件删除成功！！！", filePath);
                                         } else {
